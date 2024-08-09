@@ -1,0 +1,6 @@
+shioaji
+pandas
+matplotlib
+python-dotenv
+BeautifulSoup4
+seaborn

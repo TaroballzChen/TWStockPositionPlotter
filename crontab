@@ -1,0 +1,1 @@
+0 22 * * 1-5 /usr/local/bin/python /TWStockPositionViewer/main.py >> /var/log/cron.log 2>&1
