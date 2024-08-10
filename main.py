@@ -59,7 +59,7 @@ if __name__ == '__main__':
         taiex_info = TWStock.get_taiex_info()
         with open(f'{public_output_dir}/{datetime.now().strftime("%Y%m%d")}_caption.txt', 'w') as f:
             date_string = datetime.now().strftime("%Y年%m月%d日")
-            string_format = f"{date_string}大盤加權指數：\n開盤{float(taiex_info['指數'])+float(taiex_info['漲跌'])}\n漲跌指數為{taiex_info['漲跌']}({taiex_info['漲跌比例']})\n最後收{taiex_info['指數']}\n今年漲跌幅：{taiex_info['今年表現']}"
+            string_format = f"{date_string}大盤加權指數：\n開盤{float(taiex_info['指數'])-float(taiex_info['漲跌'])}\n漲跌指數為{taiex_info['漲跌']}({taiex_info['漲跌比例']})\n最後收{taiex_info['指數']}\n今年漲跌幅：{taiex_info['今年表現']}"
             f.write(string_format)
             print(string_format)
 
