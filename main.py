@@ -3,6 +3,7 @@ from datetime import datetime
 from TWStock import TWStock
 from GenFigure import PositionFigure
 from dotenv import load_dotenv
+from glob import glob
 import os
 
 
@@ -59,9 +60,21 @@ if __name__ == '__main__':
         taiex_info = TWStock.get_taiex_info()
         with open(f'{public_output_dir}/{datetime.now().strftime("%Y%m%d")}_caption.txt', 'w') as f:
             date_string = datetime.now().strftime("%Y年%m月%d日")
-            string_format = f"{date_string}大盤加權指數：\n開盤{float(taiex_info['指數'])-float(taiex_info['漲跌'])}\n漲跌指數為{taiex_info['漲跌']}({taiex_info['漲跌比例']})\n最後收{taiex_info['指數']}\n今年漲跌幅：{taiex_info['今年表現']}"
+            string_format = f"{date_string}大盤加權指數：\n開盤{float(taiex_info['指數'])-float(taiex_info['漲跌']):.2f}\n漲跌指數為{taiex_info['漲跌']}({taiex_info['漲跌比例']})\n最後收{taiex_info['指數']}\n今年漲跌幅：{taiex_info['今年表現']}"
             f.write(string_format)
             print(string_format)
+
+        # 產生近七天交易日的大盤文字資訊
+        TWSTock_perDay_path = sorted(glob(f'{public_output_dir}/*_caption.txt'), key=os.path.getctime)
+        TWSTock_perDay_path.reverse()
+        statistics_days = 7
+        with open(f'{public_output_dir}/{datetime.now().strftime("%Y%m%d")}_caption_{statistics_days}dsummary.txt', 'w') as f:
+            if len(TWSTock_perDay_path) < statistics_days:
+                statistics_days = len(TWSTock_perDay_path)
+            for p in TWSTock_perDay_path[:statistics_days]:
+                with open(p, 'r') as fp:
+                    f.write(fp.read())
+                    f.write('\n\n')
 
     except Exception as e:
         print(e)
